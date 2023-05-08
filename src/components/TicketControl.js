@@ -3,6 +3,7 @@ import NewTicketForm from './NewTicketForm';
 import TicketList from './TicketList';
 import EditTicketForm from './EditTicketForm';
 import TicketDetail from './TicketDetail';
+import { ThemeContext } from "../context/theme-context";
 
 class TicketControl extends React.Component {
 
@@ -64,7 +65,15 @@ class TicketControl extends React.Component {
     this.setState({selectedTicket: selectedTicket});
   }
 
-  render(){
+  render() {
+    let theme = this.context;
+    // Once we have the consumer set up via the TicketControl.contextType property, we can then access the context value from anywhere within the class by invoking this.context
+
+    const buttonStyles = { 
+          backgroundColor: theme.buttonBackground, 
+          color: theme.textColor, 
+        }
+
     let currentlyVisibleState = null;
     let buttonText = null; 
     if (this.state.editing ) {      
@@ -86,12 +95,13 @@ class TicketControl extends React.Component {
     return (
       <React.Fragment>
         {currentlyVisibleState}
-        <button onClick={this.handleClick}>{buttonText}</button> 
+        <button style={buttonStyles} onClick={this.handleClick}>{buttonText}</button> 
       </React.Fragment>
     );
   }
-
 }
+
+TicketControl.contextType = ThemeContext;
 
 export default TicketControl;
 
